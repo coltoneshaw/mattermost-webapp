@@ -9,7 +9,7 @@ import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {Constants} from 'utils/constants';
