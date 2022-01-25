@@ -633,10 +633,10 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 isMarkdownPreviewEnabled={this.props.canEditPost && this.props.markdownPreviewFeatureIsEnabled}
-                                characterLimit={this.props.maxPostSize}
+                                haveExceededCharacterLimit={this.state.editText.length > this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.editText}
+                                haveText={this.state.editText.length > 0}
                             />
                             <div className={errorBoxClass}>{postError}</div>
                         </div>

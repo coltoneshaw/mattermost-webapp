@@ -7,34 +7,33 @@ import {Link} from 'react-router-dom';
 
 type Props = {
     showPreview?: boolean;
-    characterLimit: number;
     previewMessageLink?: string;
-    updatePreview?: (showPreview: boolean) => void;
-    message?: string;
+    haveText?: boolean;
+    haveExceededCharacterLimit?: boolean;
     isMarkdownPreviewEnabled: boolean;
     currentLocale: string;
+    updatePreview?: (showPreview: boolean) => void;
 };
 
-const TextboxLinks: React.FC<Props> = ({
+function TextboxLinks({
     showPreview,
-    characterLimit,
     previewMessageLink,
-    updatePreview,
-    message = '',
+    haveText = false,
+    haveExceededCharacterLimit = false,
     isMarkdownPreviewEnabled,
     currentLocale,
-}: Props) => {
+    updatePreview,
+}: Props) {
     const togglePreview = (e: MouseEvent) => {
         e.preventDefault();
         updatePreview?.(!showPreview);
     };
 
-    const hasText = message && message.length > 0;
     let editHeader;
 
     let helpTextClass = '';
 
-    if (message && message.length > characterLimit) {
+    if (haveExceededCharacterLimit) {
         helpTextClass = 'hidden';
     }
 
@@ -75,7 +74,7 @@ const TextboxLinks: React.FC<Props> = ({
 
     const helpText = (
         <div
-            style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
+            style={{visibility: haveText ? 'visible' : 'hidden', opacity: haveText ? '0.45' : '0'}}
             className='help__format-text'
         >
             <b>
@@ -138,6 +137,6 @@ const TextboxLinks: React.FC<Props> = ({
             </Link>
         </div>
     );
-};
+}
 
 export default TextboxLinks;
