@@ -242,7 +242,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private saveDraftFrame?: number | null;
 
     private topDiv: React.RefObject<HTMLFormElement>;
-    private textboxRef: React.RefObject<TextboxClass>;
+    private textboxRef: React.RefObject<TextboxForwarded>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
@@ -780,8 +780,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
+    handleChange = (e: string | React.ChangeEvent<TextboxElement>) => {
+        const message = (typeof e === 'string') ? e : e.target.value;
         const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
@@ -1290,7 +1290,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     handleSelect={this.handleSelect}
                     handleKeyDown={this.handleKeyDown}
                     postMsgKeyPress={this.postMsgKeyPress}
+
                     handleChange={this.handleChange}
+
+                    isAdvancedEditor={!this.state.isFormattingBarHidden}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}

@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -158,6 +161,9 @@ export default class SuggestionBox extends React.PureComponent {
         actions: PropTypes.shape({
             addMessageIntoHistory: PropTypes.func.isRequired,
         }).isRequired,
+
+        isAdvancedEditor: PropTypes.bool,
+        handleEditorChange: PropTypes.func,
     }
 
     static defaultProps = {
@@ -344,6 +350,19 @@ export default class SuggestionBox extends React.PureComponent {
 
         if (this.props.onChange) {
             this.props.onChange(e);
+        }
+    }
+
+    handleAdvancedChange = (message) => {
+        // console.log({message});
+        const pretext = this.props.shouldSearchCompleteText ? message.trim() : message.substring(0, message.selectionEnd);
+
+        if (!this.composing && this.pretext !== pretext) {
+            this.handlePretextChanged(pretext);
+        }
+
+        if (this.props.onChange) {
+            this.props.onChange(message);
         }
     }
 
@@ -803,6 +822,7 @@ export default class SuggestionBox extends React.PureComponent {
             <div
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
+
             >
                 <div
                     ref={this.suggestionReadOut}
@@ -810,6 +830,8 @@ export default class SuggestionBox extends React.PureComponent {
                     role='alert'
                     className='sr-only'
                 />
+
+                {/* On change and the element gets passed down here. */}
                 <QuickInput
                     ref={this.inputRef}
                     autoComplete='off'
@@ -820,6 +842,8 @@ export default class SuggestionBox extends React.PureComponent {
                     onCompositionEnd={this.handleCompositionEnd}
                     onKeyDown={this.handleKeyDown}
                     onSelect={this.handleSelect}
+                    isAdvancedEditor={this.props.isAdvancedEditor}
+                    handleAdvancedChange={this.handleAdvancedChange}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>

@@ -71,7 +71,9 @@ type Props = {
     handleSelect: (e: React.SyntheticEvent<TextboxElement>) => void;
     handleKeyDown: (e: React.KeyboardEvent<TextboxElement>) => void;
     postMsgKeyPress: (e: React.KeyboardEvent<TextboxElement>) => void;
-    handleChange: (e: React.ChangeEvent<TextboxElement>) => void;
+    isAdvancedEditor?: boolean;
+
+    handleChange: (e: React.ChangeEvent<TextboxElement> | string) => void;
     toggleEmojiPicker: () => void;
     handleGifClick: (gif: string) => void;
     handleEmojiClick: (emoji: Emoji) => void;
@@ -127,6 +129,7 @@ const AdvanceTextEditor = ({
     handleSelect,
     handleKeyDown,
     postMsgKeyPress,
+    isAdvancedEditor,
     handleChange,
     toggleEmojiPicker,
     handleGifClick,
@@ -348,7 +351,6 @@ const AdvanceTextEditor = ({
             showFormattingControls={!isFormattingBarHidden}
         />
     );
-
     return (
         <div
             className={classNames('AdvancedTextEditor', {
@@ -373,7 +375,16 @@ const AdvanceTextEditor = ({
                     className='AdvancedTextEditor__cell a11y__region'
                 >
                     <Textbox
+
+                        // just telling us if the editor is enabled or not
+                        isAdvancedEditor={isAdvancedEditor}
+
+                        // handles the message / draft change within Advanced Create Post
                         onChange={handleChange}
+
+                        // don't need right now. Might bring it back.
+                        // inputComponent={TextEditor}
+
                         onKeyPress={postMsgKeyPress}
                         onKeyDown={handleKeyDown}
                         onSelect={handleSelect}
@@ -388,6 +399,7 @@ const AdvanceTextEditor = ({
                         createMessage={createMessage}
                         channelId={channelId}
                         id={textboxId}
+
                         ref={textboxRef!}
                         disabled={readOnlyChannel}
                         characterLimit={maxPostSize}
@@ -395,6 +407,7 @@ const AdvanceTextEditor = ({
                         badConnection={badConnection}
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
+
                     />
                     {attachmentPreview}
                     <TexteditorActions

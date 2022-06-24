@@ -1071,6 +1071,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     handleSelect={this.handleSelect}
                     handleKeyDown={this.handleKeyDown}
                     postMsgKeyPress={this.commentMsgKeyPress}
+
+                    isAdvancedEditor={!this.state.isFormattingBarHidden}
+
                     handleChange={this.handleChange}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}

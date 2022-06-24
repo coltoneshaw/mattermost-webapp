@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+/* eslint-disable react/jsx-closing-bracket-location */
 
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -11,6 +14,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import AutosizeTextarea from 'components/autosize_textarea';
 import Constants from 'utils/constants';
+import {TextEditor} from 'components/advanced_text_editor/Editor';
 
 export type Props = {
 
@@ -82,6 +86,8 @@ export type Props = {
     type?: string;
     id?: string;
     onInput?: (e?: React.FormEvent<HTMLInputElement>) => void;
+    handleAdvancedChange?: (e: string) => void;
+    isAdvancedEditor?: boolean;
 }
 
 // A component that can be used to make controlled inputs that function properly in certain
@@ -161,6 +167,8 @@ export class QuickInput extends React.PureComponent<Props> {
             clearClassName,
             tooltipPosition,
             clearableWithoutValue,
+            isAdvancedEditor,
+            handleAdvancedChange,
             ...props
         } = this.props;
 
@@ -186,8 +194,21 @@ export class QuickInput extends React.PureComponent<Props> {
         );
 
         const showClearButton = this.props.onClear && (clearableWithoutValue || (clearable && value));
+
+        console.log({
+            isAdvancedEditor,
+            handleAdvancedChange,
+        });
+
+        const advancedEditor = (isAdvancedEditor) ? (
+            <TextEditor
+                placeholder={this.props.placeholder}
+                defaultValue={value}
+                handleAdvancedChange={this.props.handleAdvancedChange}
+            />
+        ) : inputElement;
         return (<div>
-            {inputElement}
+            {advancedEditor}
             {showClearButton &&
             <div
                 className={classNames(clearClassName, 'input-clear visible')}

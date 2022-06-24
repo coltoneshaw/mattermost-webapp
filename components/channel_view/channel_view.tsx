@@ -118,6 +118,9 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 <div
                     className='post-create__container'
                     id='post-create'
+                    style={{
+                        backgroundColor: 'blue',
+                    }}
                 >
                     <div
                         className='channel-archived__message'
