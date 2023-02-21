@@ -678,14 +678,14 @@ export function makeGetProfilesByIdsAndUsernames(): (
     );
 }
 
-export function makeGetDisplayName(): (state: GlobalState, userId: UserProfile['id'], useFallbackUsername?: boolean) => string {
+export function makeGetDisplayName(): (state: GlobalState, userId: UserProfile['id'], useFallbackUsername?: boolean, longNickname?: boolean) => string {
     return createSelector(
         'makeGetDisplayName',
         (state: GlobalState, userId: string) => getUser(state, userId),
         getTeammateNameDisplaySetting,
-        (state, userId, useFallbackUsername = true) => useFallbackUsername,
-        (user, teammateNameDisplaySetting, useFallbackUsername) => {
-            return displayUsername(user, teammateNameDisplaySetting!, useFallbackUsername);
+        (state, userId, useFallbackUsername = true, longNickname = false) => useFallbackUsername,
+        (user, teammateNameDisplaySetting, useFallbackUsername, longNickname) => {
+            return displayUsername(user, teammateNameDisplaySetting!, useFallbackUsername, longNickname);
         },
     );
 }

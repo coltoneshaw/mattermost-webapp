@@ -12,6 +12,7 @@ import UserProfile from './user_profile';
 
 type OwnProps = {
     userId: string;
+    longNickname?: boolean;
 }
 
 function makeMapStateToProps() {
@@ -22,7 +23,7 @@ function makeMapStateToProps() {
         const theme = getTheme(state);
 
         return {
-            displayName: getDisplayName(state, ownProps.userId, true),
+            displayName: getDisplayName(state, ownProps.userId, true, ownProps.longNickname),
             user,
             theme,
             isShared: Boolean(user && user.remote_id),

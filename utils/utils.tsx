@@ -1042,9 +1042,25 @@ export function getFullName(user: UserProfile) {
     return '';
 }
 
+export function getNickname(nickname: string, long = false) {
+    if (!nickname || nickname.trim().length === 0) {
+        return '';
+    }
+
+    if (!long) {
+        if (nickname.length > 25) {
+            return nickname.slice(0, 21) + '...';
+        }
+
+        return nickname.slice(0, 21);
+    }
+
+    return nickname;
+}
+
 export function getDisplayName(user: UserProfile) {
     if (user.nickname && user.nickname.trim().length > 0) {
-        return user.nickname;
+        return getNickname(user.nickname, false);
     }
     const fullName = getFullName(user);
 

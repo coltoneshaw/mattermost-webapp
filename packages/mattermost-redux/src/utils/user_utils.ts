@@ -7,6 +7,7 @@ import {ChannelMembership} from '@mattermost/types/channels';
 import {TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
 import {IDMappedObjects} from '@mattermost/types/utilities';
+
 export function getFullName(user: UserProfile): string {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;
@@ -19,15 +20,32 @@ export function getFullName(user: UserProfile): string {
     return '';
 }
 
+export function getNickname(nickname: string, long = false) {
+    if (!nickname || nickname.trim().length === 0) {
+        return '';
+    }
+
+    if (!long) {
+        if (nickname.length > 25) {
+            return nickname.slice(0, 21) + '...';
+        }
+
+        return nickname.slice(0, 21);
+    }
+
+    return nickname;
+}
+
 export function displayUsername(
     user: UserProfile | null | undefined,
     teammateNameDisplay: string,
     useFallbackUsername = true,
+    longNickname = false,
 ): string {
     let name = useFallbackUsername ? localizeMessage('channel_loader.someone', 'Someone') : '';
     if (user) {
         if (teammateNameDisplay === Preferences.DISPLAY_PREFER_NICKNAME) {
-            name = user.nickname || getFullName(user);
+            name = getNickname(user.nickname, longNickname) || getFullName(user);
         } else if (teammateNameDisplay === Preferences.DISPLAY_PREFER_FULL_NAME) {
             name = getFullName(user);
         } else {
